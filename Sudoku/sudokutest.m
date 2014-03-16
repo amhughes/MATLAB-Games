@@ -4,7 +4,15 @@ function [ good ] = sudokutest(test)
 good = true;
 
 for i = 1:9
-    if or(mode(test(i,:))~=0,mode(test(:,i)))
+    testr = test(i,:);
+    testr(testr == 0) = [];
+    testc = test(:,i);
+    testc(testc == 0) = [];
+    
+    [~,f1] = mode(testr);
+    [~,f2] = mode(testc);
+    
+    if or(f1>1,f2>1)
         good = false;
     end
 
@@ -12,7 +20,10 @@ end
 
 for i = 1:3:7
     for j = 1:3:7
-        if mode([test(i,j:(j+2)),test(i+1,j:(j+2)),test(i+2,(j:j+2))])~=0
+        testb = [test(i,j:(j+2)),test(i+1,j:(j+2)),test(i+2,(j:j+2))];
+        testb(testb == 0) = [];
+        [~,f3] = mode(testb);
+        if f3>1
             good = false;
         end
     end
